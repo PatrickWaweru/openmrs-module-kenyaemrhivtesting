@@ -48,6 +48,8 @@
             jq('#currently-pep input').prop('disabled', true);
             jq('#currently-sti input').prop('disabled', true);
             jq('#screened-tb input').prop('disabled', true);
+            jq('#tr-testing-reasons').hide();
+            jq('#tr-not-testing-reasons').hide();
 
 
             jq('#population-type :input[type=radio]').change(populationTypeSelected);
@@ -67,6 +69,7 @@
             jq('#other-decline-reason :input[type=checkbox]').change(otherDeclineReasonSelected);
             jq('#index-relationship :input[type=checkbox]').change(indexRelationshipSelected);
             jq('#screened-tb :input[type=radio]').change(tbScreenedSelected);
+            jq('#eligible-test :input[type=radio]').change(eligibleForTestSelected);
 
 
             if(pgender == 'M' || pAge &lt; 10 ){
@@ -402,6 +405,24 @@
                 clearHiddenSections(jq('#needle-shared'));
             }
         }
+
+        //Eligible For Test Selected for HTS Test selected
+        var eligibleForTestSelected = function(){
+            var val = jq(this).val();
+            var tableTesting = jq('#tb-testing-reasons');
+            var tableNotTesting = jq('#tb-not-testing-reasons');
+
+            if(val == 1066){
+                jq('#tr-testing-reasons').hide();
+                clearHiddenSections(tableTesting);
+                jq('#tr-not-testing-reasons').show();
+            } else if(val == 1065){
+                jq('#tr-not-testing-reasons').hide();
+                clearHiddenSections(tableNotTesting);
+                jq('#tr-testing-reasons').show();
+            }
+        }
+
         //ReferredSelected for HTS Test selected
         var referredSelected = function(){
             var val = jq(this).val();
@@ -421,6 +442,7 @@
                 clearHiddenSections(jq('#other-reason-specify'));
             }
         }
+
         //Other Decline Reason Selected
         var otherDeclineReasonSelected = function(){
             var val = jq(this).val();
@@ -528,7 +550,7 @@
             var isDisabled = getValue('has-disability.value');
             var everTested = getValue("ever-tested.value");
             var testedAs = getValue("couple-testing.value");
-            var entryPoint = getValue("department.value");
+            var htsDepartment = getValue("department.value");
             var testStrategy = getValue("strategy.value");
             var tbScreening = getValue("tb-result-status.value");
             var selfTested = getValue("tester.value");
@@ -579,6 +601,12 @@
             var patientReferred = getValue('referred.value');
             var patientBreastFeeding = getValue('breastfeeding.value');
             var sharedNeedle = getValue('needle-shared.value');
+            var testHistory = getValue('test-history.value');
+            var htsEntryPoint = getValue('hts-entry-point.value');
+            var prepServiceChecked = jq("#prep-service input:checkbox:checked");
+            var pepServiceChecked = jq("#pep-service input:checkbox:checked");
+            var tbServiceChecked = jq("#tb-service input:checkbox:checked");
+            var stiServiceChecked = jq("#sti-service input:checkbox:checked");
 
             //Validate mandatory fields
             // test strategy (Index/HP)
@@ -587,14 +615,13 @@
             // entry point / department
             // ever tested for HIV / months since last test
             console.log("populationType " + populationType);
-            console.log("isDisabled " + isDisabled);
-            console.log("everTested " + everTested);
-            console.log("entryPoint " + entryPoint);
+            console.log("testHistory " + testHistory);
+            console.log("htsDepartment " + htsDepartment);
+            console.log("htsEntryPoint " + htsEntryPoint);
             console.log("testStrategy " + testStrategy);
-            console.log("tbScreening " + tbScreening);
+            console.log("htsEntryPoint " + htsEntryPoint);
             console.log("selfTested " + selfTested);
-            console.log("testedAs " + testedAs);
-            if (populationType == '' || everTested == '' || entryPoint == '' || testStrategy == '') {
+            if (populationType == '' || testHistory == '' || htsDepartment == '' || testStrategy == '' || htsEntryPoint == '') {
                 console.log("Please ensure that you have provided answers to all questions above");
                 jq('#ml-prediction-desc').html('Please ensure that you have provided answers to all questions above');
                 return;
@@ -836,31 +863,39 @@
                 predictionVariables.ClientTestedAsCOUPLE = 1;
             }
 
-            // convert entry point (department) 
+            // convert entry point
             
-            if (entryPoint == 159940) { // VCT
+            if (htsEntryPoint == 159940) { // VCT
                 predictionVariables.EntryPointVCT = 1;
-                predictionVariables.DepartmentVCT = 1;
-            } else if (entryPoint == 160542) { // OPD
+            } else if (htsEntryPoint == 160542) { // OPD
                 predictionVariables.EntryPointOPD = 1;
-                predictionVariables.DepartmentOPD = 1;
-            } else if (entryPoint == 160456 || entryPoint == 1623) { // Maternity
+            } else if (htsEntryPoint == 160456 || htsEntryPoint == 1623) { // Maternity
                 predictionVariables.EntryPointPMTCT_MAT_PNC = 1;
-                predictionVariables.DepartmentPMTCT = 1;
-            } else if (entryPoint == 5485) { // IPD
+            } else if (htsEntryPoint == 5485) { // IPD
                 predictionVariables.EntryPointIPD = 1;
-                predictionVariables.DepartmentIPD = 1;
-            } else if (entryPoint == 162181) { // Paed
+            } else if (htsEntryPoint == 162181) { // Paed
                 predictionVariables.EntryPointPEDIATRIC = 1;
-            } else if (entryPoint == 5622 || entryPoint == 160552 || entryPoint == 162050 || entryPoint == 159938 || entryPoint == 159939 || entryPoint == 160546 || entryPoint == 160522 || entryPoint == 163096) { // Other
+            } else if (htsEntryPoint == 5622 || htsEntryPoint == 160552 || htsEntryPoint == 162050 || htsEntryPoint == 159938 || htsEntryPoint == 159939 || htsEntryPoint == 160546 || htsEntryPoint == 160522 || htsEntryPoint == 163096) { // Other
                 predictionVariables.EntryPointOTHER = 1;
-            } else if (entryPoint == 162223) { // vmmc
+            } else if (htsEntryPoint == 162223) { // vmmc
                 predictionVariables.EntryPointVMMC = 1;
-            } else if (entryPoint == 160541) { // tb
+            } else if (htsEntryPoint == 160541) { // tb
                 predictionVariables.EntryPointTB = 1;
-            } else if (entryPoint == 160538) { // ANC
+            } else if (htsEntryPoint == 160538) { // ANC
                 predictionVariables.EntryPointPMTCT_ANC = 1;
-            } else if (entryPoint == 160473) { // EMERGENCY
+            }
+
+            // convert department
+            
+            if (htsDepartment == 159940) { // VCT
+                predictionVariables.DepartmentVCT = 1;
+            } else if (htsDepartment == 160542) { // OPD
+                predictionVariables.DepartmentOPD = 1;
+            } else if (htsDepartment == 160456 || htsDepartment == 1623) { // Maternity
+                predictionVariables.DepartmentPMTCT = 1;
+            } else if (htsDepartment == 5485) { // IPD
+                predictionVariables.DepartmentIPD = 1;
+            } else if (htsDepartment == 160473) { // EMERGENCY
                 predictionVariables.DepartmentEMERGENCY = 1;
             }
 
@@ -1163,21 +1198,37 @@
             }
 
             // Received Services - prep, pep, tb, sti
-            // // received prep
-            // ReceivedPrEPNO
-            // ReceivedPrEPYES
+            // received prep
 
-            // // received pep
-            // ReceivedPEPNO
-            // ReceivedPEPYES
+            if (prepServiceChecked.length &gt;= 1) {
+                predictionVariables.ReceivedPrEPYES = 1;
+            } else {
+                predictionVariables.ReceivedPrEPNO = 1;
+            }
 
-            // // received TB
-            // ReceivedTBNO
-            // ReceivedTBYES
+            // received pep
 
-            // // received STI
-            // ReceivedSTINO
-            // ReceivedSTIYES
+            if (pepServiceChecked.length &gt;= 1) {
+                predictionVariables.ReceivedPEPYES = 1;
+            } else {
+                predictionVariables.ReceivedPEPNO = 1;
+            }
+
+            // received TB
+            
+            if (tbServiceChecked.length &gt;= 1) {
+                predictionVariables.ReceivedTBYES = 1;
+            } else {
+                predictionVariables.ReceivedTBNO = 1;
+            }
+
+            // received STI
+            
+            if (stiServiceChecked.length &gt;= 1) {
+                predictionVariables.ReceivedSTIYES = 1;
+            } else {
+                predictionVariables.ReceivedSTINO = 1;
+            }
 
             // GBV Sexual
             
@@ -1644,6 +1695,51 @@
                         <obs conceptId="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165192"
                              answerLabel="Military and other uniformed services" style="checkbox" id="dodOnly" /><br/>
 
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>HTS Entry Point</legend>
+            <table id="tbl-hts-entry-point">
+                <tr>
+                    <td>Indicate HTS entry point: &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        <obs id="hts-entry-point"
+                             conceptId="160540"
+                             answerConceptIds="5485,
+                                               160542,
+                                               162181,
+                                               160552,
+                                               160538,
+                                               160456,
+                                               1623,
+                                               160541,
+                                               159940,
+                                               162223,
+                                               160546,
+                                               160522,
+                                               163096,
+                                               159938,
+                                               159939,
+                                               5622"
+                             answerLabels="In Patient Department(IPD),
+                                           Out Patient Department(OPD),
+                                           Peadiatric Clinic,
+                                           Nutrition Clinic,
+                                           PMTCT - ANC,
+                                           PMTCT - MAT,
+                                           PMTCT - PNC,
+                                           TB,
+                                           VCT,
+                                           VMMC,
+                                           STI Clinic,
+                                           Emergency,
+                                           Community Testing,
+                                           Home Based Testing,
+                                           Mobile Outreach,
+                                           Other"
+                             required="true"
+                        />
                     </td>
                 </tr>
             </table>
@@ -2176,6 +2272,34 @@
                              answerConceptIds="1065,1066"
                              answerLabels="Yes,No"
                              style="radio" />
+                    </td>
+                </tr>
+                <tr id="tr-testing-reasons">
+                    <td>
+                        Why was testing recommended?:
+                    </td>
+                    <td colspan="3">
+                        <obs id="tb-testing-reasons" conceptId="164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=""
+                                                   answerConceptIds="1660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     142177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             style="radio" answerLabels="HTS Counselor's Decision,Clinician's Decision,Computed Risk Score,Risk Categorization,Other (Specify)" />
+                    </td>
+                </tr>
+                <tr id="tr-not-testing-reasons">
+                    <td>
+                        Why was testing NOT recommended?:
+                    </td>
+                    <td colspan="3">
+                        <obs id="tb-not-testing-reasons" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=""
+                                                   answerConceptIds="1660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     142177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             style="radio" answerLabels="HTS Counselor's Decision,Clinician's Decision,Computed Risk Score,Risk Categorization,Other (Specify)" />
                     </td>
                 </tr>
                 <tr>
