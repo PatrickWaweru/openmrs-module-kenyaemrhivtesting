@@ -23,10 +23,11 @@
         //On Ready
         $(document).ready(function () {
             //pop type
-            jq('#div-ml-prediction').hide();
+            // jq('#div-ml-prediction').hide();
+            jq("#btn-ml-prediction").click(hivPrediction);
 
             //Consent validation
-            jq('.consent input').change(consentSelected);
+            // jq('.consent input').change(consentSelected);
 
             //defaults
             jq("#key-population").hide();
@@ -455,68 +456,72 @@
             }
         }
 
-        var consentSelected = function () {
-            var val = jq(this).val();
-            if (val == 'true' ){
-                console.log("Testing Consent is given");
-                jq('#couple-testing input').prop("disabled", false);
-                jq('#hiv-test1-result select').prop("disabled", false);
-                jq('.kit-name select').prop("disabled", false);
-                jq('.lot-number input').prop("disabled", false);
-                jq('#expiry-date input').prop("disabled", false);
-                jq('#expiry-date2 input').prop("disabled", false);
-                jq('#hiv-final-result select').prop("disabled", false);
-                jq('.result-given select').prop("disabled", false);
-                jq("#couple-discordant input").prop("disabled", false);
-                jq("#tb-screening input").prop("disabled", false);
+        // var consentSelected = function () {
+        //     var val = jq(this).val();
+        //     if (val == 'true' ){
+        //         console.log("Testing Consent is given");
+        //         jq('#couple-testing input').prop("disabled", false);
+        //         jq('#hiv-test1-result select').prop("disabled", false);
+        //         jq('.kit-name select').prop("disabled", false);
+        //         jq('.lot-number input').prop("disabled", false);
+        //         jq('#expiry-date input').prop("disabled", false);
+        //         jq('#expiry-date2 input').prop("disabled", false);
+        //         jq('#hiv-final-result select').prop("disabled", false);
+        //         jq('.result-given select').prop("disabled", false);
+        //         jq("#couple-discordant input").prop("disabled", false);
+        //         jq("#tb-screening input").prop("disabled", false);
 
-                if(mlCaseFindingEnabled === 'true') {
-                    console.log("ML case finding is enabled. Enable score button");
-		            jq('#div-ml-prediction').show();
-                } else {
-                    console.log("ML case finding is disabled. Disable score button");
-                    jq('#div-ml-prediction').hide();
-                }
+        //         if(mlCaseFindingEnabled === 'true') {
+        //             console.log("ML case finding is enabled. Enable score button");
+		//             jq('#div-ml-prediction').show();
+        //         } else {
+        //             console.log("ML case finding is disabled. Disable score button");
+        //             jq('#div-ml-prediction').hide();
+        //         }
 
-            }
-            if (val == 'false' ){
-                console.log("Testing Consent is NOT given. ML disabled");
-                jq('#couple-testing input').prop("disabled", true);
-                jq('#hiv-test1-result select').prop("disabled", true);
-                jq('.kit-name select').prop("disabled", true);
-                jq('.lot-number input').prop("disabled", true);
-                jq('#expiry-date input').prop("disabled", true);
-                jq('#hiv-test2-result select').prop("disabled", true);
-                jq('.kit-name2 select').prop("disabled", true);
-                jq('.lot-number2 input').prop("disabled", true);
-                jq('#expiry-date2 input').prop("disabled", true);
-                jq('#hiv-final-result select').prop("disabled", true);
-                jq('.result-given select').prop("disabled", true);
-                jq("#couple-discordant input").prop("disabled", true);
-                jq("#tb-screening input").prop("disabled", true);
-                jq('#div-ml-prediction').hide();
+        //     }
+        //     if (val == 'false' ){
+        //         console.log("Testing Consent is NOT given. ML disabled");
+        //         jq('#couple-testing input').prop("disabled", true);
+        //         jq('#hiv-test1-result select').prop("disabled", true);
+        //         jq('.kit-name select').prop("disabled", true);
+        //         jq('.lot-number input').prop("disabled", true);
+        //         jq('#expiry-date input').prop("disabled", true);
+        //         jq('#hiv-test2-result select').prop("disabled", true);
+        //         jq('.kit-name2 select').prop("disabled", true);
+        //         jq('.lot-number2 input').prop("disabled", true);
+        //         jq('#expiry-date2 input').prop("disabled", true);
+        //         jq('#hiv-final-result select').prop("disabled", true);
+        //         jq('.result-given select').prop("disabled", true);
+        //         jq("#couple-discordant input").prop("disabled", true);
+        //         jq("#tb-screening input").prop("disabled", true);
+        //         jq('#div-ml-prediction').hide();
 
-                clearHiddenSections(jq('#tbl-couple-testing'));
-                clearHiddenSections(jq('#hiv-test1-result'));
-                clearHiddenSections(jq('.kit-name'));
-                clearHiddenSections(jq('.lot-number'));
-                clearHiddenSections(jq('#expiry-date'));
-                clearHiddenSections(jq('#hiv-test2-result'));
-                clearHiddenSections(jq('.kit-name2'));
-                clearHiddenSections(jq('.lot-number2'));
-                clearHiddenSections(jq('#expiry-date2'));
-                clearHiddenSections(jq('#hiv-final-result'));
-                clearHiddenSections(jq('.result-given'));
-                clearHiddenSections(jq('#couple-discordant'));
-                clearHiddenSections(jq('#tb-screening'));
-            }
-        }
+        //         clearHiddenSections(jq('#tbl-couple-testing'));
+        //         clearHiddenSections(jq('#hiv-test1-result'));
+        //         clearHiddenSections(jq('.kit-name'));
+        //         clearHiddenSections(jq('.lot-number'));
+        //         clearHiddenSections(jq('#expiry-date'));
+        //         clearHiddenSections(jq('#hiv-test2-result'));
+        //         clearHiddenSections(jq('.kit-name2'));
+        //         clearHiddenSections(jq('.lot-number2'));
+        //         clearHiddenSections(jq('#expiry-date2'));
+        //         clearHiddenSections(jq('#hiv-final-result'));
+        //         clearHiddenSections(jq('.result-given'));
+        //         clearHiddenSections(jq('#couple-discordant'));
+        //         clearHiddenSections(jq('#tb-screening'));
+        //     }
+        // }
 
         // handle ML prediction button
-        jq("#btn-ml-prediction").click(function () {
+        // jq("#btn-ml-prediction").click(function () {
+        function hivPrediction() {
             console.log("Prediction Button Clicked");
             var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
             var casefindingURL = "<lookup expression="fn.globalProperty('kenyaemrml.casefinding.endpoint')"/>";
+            var glbLowRiskThreshold = "<lookup expression="fn.globalProperty('kenyaemrml.hts.lowRiskThreshold')"/>";
+            var glbMediumRiskThreshold = "<lookup expression="fn.globalProperty('kenyaemrml.hts.mediumRiskThreshold')"/>";
+            var glbHighRiskThreshold = "<lookup expression="fn.globalProperty('kenyaemrml.hts.highRiskThreshold')"/>";
             var latestMaritalStatus = "<lookup expression="fn.latestObs(1054).getValueCoded()"/>";
             var monthsSinceLastTest = getValue('date-tested.value');
             var populationType = getValue('population-type.value');
@@ -528,16 +533,68 @@
             var tbScreening = getValue("tb-result-status.value");
             var selfTested = getValue("tester.value");
             var monthsSinceLastTestInt = parseInt(monthsSinceLastTest);
-
-            var pwidChecked = jq("#pwid input:checkbox:checked");
-            var mwsmChecked = jq("#mwsm input:checkbox:checked");
-            var fswChecked = jq("#female-sex-worker input:checkbox:checked");
-            var prisonerChecked = jq("#prisoner input:checkbox:checked");
-            var transgenderChecked = jq("#transgender input:checkbox:checked");
-            var kpotherChecked = jq("#kpother input:checkbox:checked");
             var pAge = parseInt('<lookup expression="patient.age"/>');
 
-            if (populationType == '' || isDisabled == '' || everTested == '' || entryPoint == '' || testStrategy == '' || tbScreening == '' || selfTested == '' || testedAs == '') {
+            // key population
+            var pwidChecked = jq("#pwid input:checkbox:checked");
+            var mwsmChecked = jq("#kpmsm input:checkbox:checked");
+            var fswChecked = jq("#female-sex-worker input:checkbox:checked");
+            var kpPrisonerChecked = jq("#prisoner input:checkbox:checked");
+            var transgenderChecked = jq("#transgender input:checkbox:checked");
+            var kpotherChecked = jq("#kpother input:checkbox:checked");
+
+            // priority population
+            var fisherFolkChecked = jq("#fisherfolk input:checkbox:checked");
+            var truckDriverChecked = jq("#truckdriver input:checkbox:checked");
+            var adygChecked = jq("#adyg input:checkbox:checked");
+            var ppPrisonerChecked = jq("#ppprisoner input:checkbox:checked");
+            var dodOnlyChecked = jq("#dodOnly input:checkbox:checked");
+
+            var onPREP = getValue("currently-prep.value");
+            var hasSTI = getValue("currently-sti.value");
+            var activeSexually = getValue("active-sexually.value");
+            var newPartner = getValue("new-partner.value");
+            var isHealthWorker = getValue("health-worker.value");
+            var partnerHIVStatus = getValue("partner-hiv-status.value");
+            var numberOfPartners = getValue("no-sex-partners.value");
+            var numberOfPartnersInt = parseInt(numberOfPartners);
+            var alcoholicSex = getValue("alcoholic-sex.value");
+            var moneySex = getValue("money-sex.value");
+            var condomBurst = getValue("condom-burst.value");
+            var strangerSex = getValue("stranger-sex.value");
+            var positiveSex = getValue("known-positive.value");
+            var GBVExperienced = getValue("experienced-gbv.value");
+            var GBVSexualChecked = jq("#sexual-violence input:checkbox:checked");
+            var GBVPhysicalChecked = jq("#physical-violence input:checkbox:checked");
+            var GBVEmotionalChecked = jq("#emotional-violence input:checkbox:checked");
+            var sexualContactChecked = jq("#sexual-contact input:checkbox:checked");
+            var socialContactChecked = jq("#social-contact input:checkbox:checked");
+            var needleSharingContactChecked = jq("#needle-sharing-contact input:checkbox:checked");
+            var noneContactChecked = jq("#index-error input:checkbox:checked");
+            var needleStickInjuries = getValue("needle-stick.value");
+            var traditionalProcedures = getValue("scarification.value");
+            var discordantCouple = getValue("couple-discordant.value");
+            var patientPregnant = getValue('pregnant.value');
+            var mothersStatus = getValue('mothers-hiv-status.value');
+            var patientReferred = getValue('referred.value');
+            var patientBreastFeeding = getValue('breastfeeding.value');
+            var sharedNeedle = getValue('needle-shared.value');
+
+            //Validate mandatory fields
+            // test strategy (Index/HP)
+            // Population type / key population / priority population
+            // client self-tested
+            // entry point / department
+            // ever tested for HIV / months since last test
+            console.log("populationType " + populationType);
+            console.log("isDisabled " + isDisabled);
+            console.log("everTested " + everTested);
+            console.log("entryPoint " + entryPoint);
+            console.log("testStrategy " + testStrategy);
+            console.log("tbScreening " + tbScreening);
+            console.log("selfTested " + selfTested);
+            console.log("testedAs " + testedAs);
+            if (populationType == '' || everTested == '' || entryPoint == '' || testStrategy == '') {
                 console.log("Please ensure that you have provided answers to all questions above");
                 jq('#ml-prediction-desc').html('Please ensure that you have provided answers to all questions above');
                 return;
@@ -737,21 +794,31 @@
             } else if (populationType == 138643) {
                 predictionVariables.PopulationTypePRIORITY = 1;
             }
+
+            //Key Population
             
-            if (pwidChecked.length >=1) {
+            if (pwidChecked.length >=1) { //INJECT DRUGS
             	predictionVariables.KeyPopulationPWID = 1;
-            }
-            
-            if (mwsmChecked.length >=1) {
+            } else if (mwsmChecked.length >=1) { // MEN WITH MEN
             	predictionVariables.KeyPopulationMSM = 1;
-            }
-            
-            if (fswChecked.length >=1) {
+            } else if (fswChecked.length >=1) { // FEMALE SEX WORKER
             	predictionVariables.KeyPopulationFSW = 1;
-            }
-            
-            if (kpotherChecked.length >=1) {
+            } else if (kpotherChecked.length >=1 || kpPrisonerChecked.length >=1 || transgenderChecked.length >=1) { // Other|PRISONER|TRANS
             	predictionVariables.KeyPopulationOther = 1;
+            } else { // Not relevant
+                predictionVariables.KeyPopulationNR = 1;
+            }
+
+            //Priority Population
+
+            if (fisherFolkChecked.length >=1) { //FISHER
+            	predictionVariables.PriorityPopulationFISHERMEN = 1;
+            } else if (adygChecked.length >=1) { //ADOLESCENT
+            	predictionVariables.PriorityPopulationAGYW = 1;
+            } else if (truckDriverChecked.length >=1 || ppPrisonerChecked.length >=1 || dodOnlyChecked.length >=1) { //MILITARY|PRISONER|TRUCK
+            	predictionVariables.PriorityPopulationOTHER = 1;
+            } else { // Not relevant
+                predictionVariables.PriorityPopulationNR = 1;
             }
 
             // convert ever tested for hiv status
@@ -769,16 +836,20 @@
                 predictionVariables.ClientTestedAsCOUPLE = 1;
             }
 
-            // convert entry point (department)
+            // convert entry point (department) 
             
             if (entryPoint == 159940) { // VCT
                 predictionVariables.EntryPointVCT = 1;
+                predictionVariables.DepartmentVCT = 1;
             } else if (entryPoint == 160542) { // OPD
                 predictionVariables.EntryPointOPD = 1;
+                predictionVariables.DepartmentOPD = 1;
             } else if (entryPoint == 160456 || entryPoint == 1623) { // Maternity
                 predictionVariables.EntryPointPMTCT_MAT_PNC = 1;
+                predictionVariables.DepartmentPMTCT = 1;
             } else if (entryPoint == 5485) { // IPD
                 predictionVariables.EntryPointIPD = 1;
+                predictionVariables.DepartmentIPD = 1;
             } else if (entryPoint == 162181) { // Paed
                 predictionVariables.EntryPointPEDIATRIC = 1;
             } else if (entryPoint == 5622 || entryPoint == 160552 || entryPoint == 162050 || entryPoint == 159938 || entryPoint == 159939 || entryPoint == 160546 || entryPoint == 160522 || entryPoint == 163096) { // Other
@@ -789,6 +860,8 @@
                 predictionVariables.EntryPointTB = 1;
             } else if (entryPoint == 160538) { // ANC
                 predictionVariables.EntryPointPMTCT_ANC = 1;
+            } else if (entryPoint == 160473) { // EMERGENCY
+                predictionVariables.DepartmentEMERGENCY = 1;
             }
 
             // convert months since last test
@@ -847,6 +920,309 @@
                 predictionVariables.TbScreeningCONFIRMEDTB = 1;
             }
 
+            // convert currently on PREP
+
+            if (onPREP == 1065) {
+                predictionVariables.CurrentlyOnPrepYES = 1;
+            } else if (onPREP == 1066) {
+                predictionVariables.CurrentlyOnPrepNO = 1;
+            }
+
+            // convert has STI
+
+            if (hasSTI == 1065) {
+                predictionVariables.CurrentlyHasSTIYES = 1;
+            } else if (hasSTI == 1066) {
+                predictionVariables.CurrentlyHasSTINO = 1;
+            }
+
+            // convert Sexually Active
+
+            if (activeSexually == 1065) {
+                predictionVariables.SexuallyActiveYES = 1;
+            } else if (activeSexually == 1066) {
+                predictionVariables.SexuallyActiveNO = 1;
+            } else {
+                predictionVariables.SexuallyActiveNR = 1;
+            }
+
+            // convert New Partner
+
+            if (newPartner == 1065) {
+                predictionVariables.NewPartnerYES = 1;
+            } else if (newPartner == 1066) {
+                predictionVariables.NewPartnerNO = 1;
+            } else {
+                predictionVariables.NewPartnerNR = 1;
+            }
+
+            // convert Health Worker
+
+            if (isHealthWorker == 1065) {
+                predictionVariables.IsHealthWorkerYES = 1;
+            } else if (isHealthWorker == 1066) {
+                predictionVariables.IsHealthWorkerNO = 1;
+            } else {
+                predictionVariables.IsHealthWorkerNR = 1;
+            }
+
+            // Partner HIV Status
+            
+            if (partnerHIVStatus == 703) {
+                predictionVariables.PartnerHIVStatusPOSITIVE = 1;
+            } else if (partnerHIVStatus == 664) {
+                predictionVariables.PartnerHIVStatusNEGATIVE = 1;
+            } else if (partnerHIVStatus == 1067) {
+                predictionVariables.PartnerHIVStatusUNKNOWN = 1;
+            } else {
+                predictionVariables.PartnerHIVStatusNR = 1;
+            }
+
+            // Number of Partners
+            
+            if(numberOfPartnersInt &gt; 0) {
+                if(numberOfPartnersInt &gt; 1) {
+                    predictionVariables.NumberOfPartnersMULTIPLE = 1;
+                } else if(numberOfPartnersInt == 1) {
+                    predictionVariables.NumberOfPartnersSINGLE = 1;
+                }
+            } else {
+                predictionVariables.NumberOfPartnersNR = 1;
+            }
+
+            // Alcoholic Sex
+
+            if (alcoholicSex == 1066) {
+                predictionVariables.AlcoholSexNEVER = 1;
+            } else if (alcoholicSex == 1385) {
+                predictionVariables.AlcoholSexSOMETIMES = 1;
+            } else if (alcoholicSex == 165027) {
+                predictionVariables.AlcoholSexALWAYS = 1;
+            } else {
+                predictionVariables.AlcoholSexNR = 1;
+            }
+
+            // Money Sex
+
+            if (moneySex == 1065) {
+                predictionVariables.MoneySexYES = 1;
+            } else if (moneySex == 1066) {
+                predictionVariables.MoneySexNO = 1;
+            } else {
+                predictionVariables.MoneySexNR = 1;
+            }
+
+            //condom burst
+            
+            if (condomBurst == 1065) {
+                predictionVariables.CondomBurstYES = 1;
+            } else if (condomBurst == 1066) {
+                predictionVariables.CondomBurstNO = 1;
+            } else {
+                predictionVariables.CondomBurstNR = 1;
+            }
+
+            // unknown status partner
+            
+            if (strangerSex == 1065) {
+                predictionVariables.UnknownStatusPartnerYES = 1;
+            } else if (strangerSex == 1066) {
+                predictionVariables.UnknownStatusPartnerNO = 1;
+            } else {
+                predictionVariables.UnknownStatusPartnerNR = 1;
+            }
+
+            //known status partner
+            
+            if (positiveSex == 1065) {
+                predictionVariables.KnownStatusPartnerYES = 1;
+            } else if (positiveSex == 1066) {
+                predictionVariables.KnownStatusPartnerNO = 1;
+            } else {
+                predictionVariables.KnownStatusPartnerNR = 1;
+            }
+
+            //pregnant
+            
+            if (patientPregnant == 1065) {
+                predictionVariables.PregnantYES = 1;
+            } else if (patientPregnant == 1066) {
+                predictionVariables.PregnantNO = 1;
+            } else {
+                predictionVariables.PregnantNR = 1;
+            }
+
+            //breastfeeding
+            
+            if (patientBreastFeeding == 1065) {
+                predictionVariables.BreastfeedingMotherYES = 1;
+            } else if (patientBreastFeeding == 1066) {
+                predictionVariables.BreastfeedingMotherNO = 1;
+            } else {
+                predictionVariables.BreastfeedingMotherNR = 1;
+            }
+
+            // GBV experienced
+            
+            if (GBVExperienced == 1065) {
+                predictionVariables.ExperiencedGBVYES = 1;
+            } else if (GBVExperienced == 1066) {
+                predictionVariables.ExperiencedGBVNO = 1;
+            }
+
+            //shared needle
+            
+            if (sharedNeedle == 1065) {
+                predictionVariables.SharedNeedleYES = 1;
+            } else if (sharedNeedle == 1066) {
+                predictionVariables.SharedNeedleNO = 1;
+            } else {
+                predictionVariables.SharedNeedleNR = 1;
+            }
+
+            //needle stick injuries
+            
+            if (needleStickInjuries == 153574) {
+                predictionVariables.NeedleStickInjuriesYES = 1;
+            } else if (needleStickInjuries == 1066) {
+                predictionVariables.NeedleStickInjuriesNO = 1;
+            } else {
+                predictionVariables.NeedleStickInjuriesNR = 1;
+            }
+
+            //traditional procedures
+            
+            if (traditionalProcedures == 1065) {
+                predictionVariables.TraditionalProceduresYES = 1;
+            } else if (traditionalProcedures == 1066) {
+                predictionVariables.TraditionalProceduresNO = 1;
+            } else {
+                predictionVariables.TraditionalProceduresNR = 1;
+            }
+
+            //mothers status
+            
+            if (mothersStatus == 703) {
+                predictionVariables.MothersStatusPOSITIVE = 1;
+            } else if (mothersStatus == 664) {
+                predictionVariables.MothersStatusNEGATIVE = 1;
+            } else if (mothersStatus == 1067) {
+                predictionVariables.MothersStatusUNKNOWN = 1;
+            } else {
+                predictionVariables.MothersStatusNR = 1;
+            }
+
+            //referred for testing
+            
+            if (patientReferred == 1065) {
+                predictionVariables.ReferredForTestingYES = 1;
+            } else if (patientReferred == 1066) {
+                predictionVariables.ReferredForTestingNO = 1;
+            }
+
+            // Discordant Couple
+            
+            if (discordantCouple == 1065) {
+                predictionVariables.CoupleDiscordantYES = 1;
+            } else if (discordantCouple == 1066) {
+                predictionVariables.CoupleDiscordantNO = 1;
+            } else {
+                predictionVariables.CoupleDiscordantNR = 1;
+            }
+
+            // Relationship with Contact - Sexual
+            
+            if (sexualContactChecked.length &gt;= 1) {
+                predictionVariables.SEXUALYES = 1;
+            } else {
+                predictionVariables.SEXUALNO = 1;
+            }
+
+            // Relationship with Contact - Social
+            
+            if (socialContactChecked.length &gt;= 1) {
+                predictionVariables.SOCIALYES = 1;
+            } else {
+                predictionVariables.SOCIALNO = 1;
+            }
+
+            // Relationship with Contact - None
+            
+            if (noneContactChecked.length &gt;= 1) {
+                predictionVariables.NONEYES = 1;
+            } else {
+                predictionVariables.NONENO = 1;
+            }
+
+            // Relationship with Contact Needle sharing
+            
+            if (needleSharingContactChecked.length &gt;= 1) {
+                predictionVariables.NEEDLE_SHARINGYES = 1;
+            } else {
+                predictionVariables.NEEDLE_SHARINGNO = 1;
+            }
+
+            // Received Services - prep, pep, tb, sti
+            // // received prep
+            // ReceivedPrEPNO
+            // ReceivedPrEPYES
+
+            // // received pep
+            // ReceivedPEPNO
+            // ReceivedPEPYES
+
+            // // received TB
+            // ReceivedTBNO
+            // ReceivedTBYES
+
+            // // received STI
+            // ReceivedSTINO
+            // ReceivedSTIYES
+
+            // GBV Sexual
+            
+            if (GBVSexualChecked.length &gt;= 1) {
+                predictionVariables.GBVSexualYES = 1;
+            } else {
+                predictionVariables.GBVSexualNO = 1;
+            }
+
+            // GBV Physical
+            
+            if (GBVPhysicalChecked.length &gt;= 1) {
+                predictionVariables.GBVPhysicalYES = 1;
+            } else {
+                predictionVariables.GBVPhysicalNO = 1;
+            }
+
+            // GBV Emotional
+            
+            if (GBVEmotionalChecked.length &gt;= 1) {
+                predictionVariables.GBVEmotionalYES = 1;
+            } else {
+                predictionVariables.GBVEmotionalNO = 1;
+            }
+
+            // Day of week
+            
+            const currentDate = new Date();
+            let dayOfWeek = currentDate.getDay();
+            if(dayOfWeek == 0) { // Sunday
+                predictionVariables.dayofweekSUNDAY = 1;
+            } else if(dayOfWeek == 1) { // Monday
+                predictionVariables.dayofweekMONDAY = 1;
+            } else if(dayOfWeek == 2) { // Tuesday
+                predictionVariables.dayofweekTUESDAY = 1;
+            } else if(dayOfWeek == 3) { // Wednesday
+                predictionVariables.dayofweekWEDNESDAY = 1;
+            } else if(dayOfWeek == 4) { // Thursday
+                predictionVariables.dayofweekTHURSDAY = 1;
+            } else if(dayOfWeek == 5) { // Friday
+                predictionVariables.dayofweekFRIDAY = 1;
+            } else if(dayOfWeek == 6) { // Saturday
+                predictionVariables.dayofweekSATURDAY = 1;
+            }
+
             var mlFormattedDate = moment(new Date()).format('YYYY-MM-DD');
             var modelConfigs = {
                 "modelId":"hts_xgb_1211_jan_2023",
@@ -870,11 +1246,11 @@
                     data: JSON.stringify(mlScoringRequestPayload),
                     async: false,
                     success: function (response, textStatus, jqXHR) {
-                        var probabilityForPositivity = response.result["probability(1)"];
+                        var probabilityForPositivity = response.result.predictions["probability(1)"];
                         console.log("Success. Got probability as: " + probabilityForPositivity);
-                        var lowRiskThreshold = 0.002625179;
-                        var mediumRiskThreshold = 0.010638781;
-                        var highRiskThreshold = 0.028924102;
+                        var lowRiskThreshold = glbLowRiskThreshold;
+                        var mediumRiskThreshold = glbMediumRiskThreshold;
+                        var highRiskThreshold = glbHighRiskThreshold;
 
                         var highestRiskConcept = 167164;
                         var highRiskConcept = 1408;
@@ -925,7 +1301,7 @@
                 });
             }
 
-        });
+        }
 
         //Before Submit
         beforeSubmit.push(function() {
@@ -1235,7 +1611,7 @@
                              answerLabel="People who inject drugs" style="checkbox"  id="pwid"/><br/>
                         <includeIf velocityTest="$patient.gender == 'M'">
                             <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160578AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerLabel="Men who have sex with men" style="checkbox" /><br/>
+                                 answerLabel="Men who have sex with men" style="checkbox" id="kpmsm"/><br/>
                         </includeIf>
                         <includeIf velocityTest="$patient.gender == 'F'">
                             <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -1256,15 +1632,15 @@
                 <tr>
                     <td>
                         <obs conceptId="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Fisher folk" style="checkbox" /><br/>
+                             answerLabel="Fisher folk" style="checkbox" id="fisherfolk"/><br/>
                         <obs conceptId="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162198AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Truck driver" style="checkbox" /><br/>
+                             answerLabel="Truck driver" style="checkbox" id="truckdriver" /><br/>
                         <includeIf velocityTest="($patient.gender == 'F') &amp;&amp; ($patient.age &gt; 9) &amp;&amp; ($patient.age &lt; 25)">
                              <obs conceptId="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160549AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                  answerLabel="Adolescent and young girls" style="checkbox" id="adyg" /><br/>
                         </includeIf>
                         <obs conceptId="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Prisoner" style="checkbox" /><br/>
+                             answerLabel="Prisoner" style="checkbox" id="ppprisoner"/><br/>
                         <obs conceptId="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165192"
                              answerLabel="Military and other uniformed services" style="checkbox" id="dodOnly" /><br/>
 
@@ -1310,12 +1686,12 @@
                     <td>
                      <excludeIf velocityTest="$patient.age &lt; 10">
                         <obs conceptId="166570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="163565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Sexual Contact" style="checkbox" /><br/>
+                             answerLabel="Sexual Contact" style="checkbox" id="sexual-contact"/><br/>
                      </excludeIf>
                         <obs conceptId="166570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="166606AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Social Contact" style="checkbox" /><br/>
+                             answerLabel="Social Contact" style="checkbox" id="social-contact" /><br/>
                         <obs conceptId="166570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="166517AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Needle Sharing" style="checkbox" /><br/>
+                             answerLabel="Needle Sharing" style="checkbox" id="needle-sharing-contact" /><br/>
                         <obs conceptId="166570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="None" style="checkbox" id="index-error"/><br/>
                     </td>
