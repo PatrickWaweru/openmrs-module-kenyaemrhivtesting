@@ -1371,6 +1371,13 @@
             var scarification = getValue('scarification.value');
             var eligibility = getValue('eligible-test.value');
             var referred = getValue('referred.value');
+            var htsEntryPoint = getValue('hts-entry-point.value');
+            var testStrategy = getValue("strategy.value");
+            var eligibleForTest = getValue("eligible-test.value");
+            var reasonForTest = getValue("tb-testing-reasons.value");
+            var reasonForNoTest = getValue("tb-not-testing-reasons.value");
+            var predictionResultCategory = getValue("algorithm_result_category.value");
+            var predictionResultScore = getValue("algorithm_result_score.value");
 
             if(popType == false){
                 getField('population-type.error').html('Please specify client population type.').show();
@@ -1378,18 +1385,59 @@
             }else {
                 getField('population-type.error').html('Please specify client population type.').hide();
             }
+
+            // Validate prediction
+            if(predictionResultCategory == false || predictionResultScore == false){
+                jq('#ml-prediction-desc').html('<span style="color:red;"><strong>Please predict the probability of HIV.</strong></span>');
+                return false;
+            }
+
+            // Validate Entry Point
+            if(htsEntryPoint == false){
+                getField('hts-entry-point.error').html('Please specify the entry point.').show();
+                return false;
+            } else {
+                getField('hts-entry-point.error').html('Please specify the entry point.').hide();
+            }
+
+            // Validate Test Strategy
+            if(testStrategy == false){
+                getField('strategy.error').html('Please specify the strategy.').show();
+                return false;
+            } else {
+                getField('strategy.error').html('Please specify the strategy.').hide();
+            }
+
+            // Validate Reasons For Test
+            if(eligibleForTest == 1065 &amp;&amp; reasonForTest == false){
+                getField('eligible-test.error').html('Please specify reason for testing.').show();
+                return false;
+            } else {
+                getField('eligible-test.error').html('Please specify reason for testing.').hide();
+            }
+
+            // Validate Reasons For No Test
+            if(eligibleForTest == 1066 &amp;&amp; reasonForNoTest == false){
+                getField('eligible-test.error').html('Please specify reason for NOT testing.').show();
+                return false;
+            } else {
+                getField('eligible-test.error').html('Please specify reason for NOT testing.').hide();
+            }
+
             if(department == false){
                 getField('department.error').html('Please specify department.').show();
                 return false;
-            }else {
+            } else {
                 getField('department.error').html('Please specify department.').hide();
             }
+
             if(patientType == false){
                 getField('patient-type.error').html('Please specify client patient type.').show();
                 return false;
-            }else {
+            } else {
                 getField('patient-type.error').html('Please specify client patient type.').hide();
             }
+
             if(pAge &gt; 17) {
                 if (healthWorker == false) {
                     getField('health-worker.error').html('Please specify if client is a health worker.').show();
@@ -1398,22 +1446,23 @@
                     getField('health-worker.error').html('Please specify if client is a health worker.').hide();
                 }
             }
+
             if(relationshipChecked.length ==0){
                 getField('index-error.error').html('Please specify relationship to index.').show();
                 return false;
-            }else {
+            } else {
                 getField('index-error.error').html('Please specify relationship to index.').hide();
             }
-
 
             if(pgender == 'F' &amp;&amp; pAge &gt; 9 &amp;&amp; (testHistory == 1065 &amp;&amp; testStatus != 703)){
                 if(patientPregnant == false ){
                     getField('pregnant.error').html('Please specify pregnancy status.').show();
                     return false;
-                }else {
+                } else {
                     getField('pregnant.error').html('Please specify pregnancy status.').hide();
                 }
             }
+
             if(pAge &lt; 10) {
                 if (mothersStatus == false) {
                     getField('mothers-hiv-status.error').html("Please specify client mother's hiv status.").show();
@@ -1422,12 +1471,14 @@
                     getField('mothers-hiv-status.error').html("Please specify client mother's hiv status.").hide();
                 }
             }
+
             if(testHistory == false){
                 getField('test-history.error').html('Please specify if client has been tested for HIV before.').show();
                 return false;
-            }else {
+            } else {
                 getField('test-history.error').html('Please specify if client has been tested for HIV before.').hide();
             }
+
             if(pAge &lt; 10 &amp;&amp; mothersStatus != 703 &amp;&amp; testHistory == 1065 &amp;&amp;  testStatus != 703){
                 if (everHadSex == false) {
                     getField('sexually-active.error').html('Please specify of client has ever been defiled.').show();
@@ -1436,6 +1487,7 @@
                     getField('sexually-active.error').html('Please specify of client has ever been defiled.').hide();
                 }
             }
+
             if(pAge &gt; 9  &amp;&amp; testHistory == 1065 &amp;&amp; testStatus != 703) {
                 if (everHadSex == false) {
                     getField('sexually-active.error').html('Please specify of client has ever had sex.').show();
@@ -1444,14 +1496,16 @@
                     getField('sexually-active.error').html('Please specify of client has ever had sex.').hide();
                 }
             }
+
             if(pAge &gt; 9 &amp;&amp; (testHistory == 1065 &amp;&amp;  testStatus != 703)){
                 if(experiencedGbv == false){
                     getField('experienced-gbv.error').html('Please specify if client has ever experienced gender based violence.').show();
                     return false;
-                }else {
+                } else {
                     getField('experienced-gbv.error').html('Please specify if client has ever experienced gender based violence.').hide();
                 }
             }
+
             if(pAge &lt; 10 &amp;&amp; mothersStatus != 703 &amp;&amp; testHistory == 1065 &amp;&amp;  testStatus != 703){
                 if (scarification == false) {
                     getField('scarification.error').html('Please specify if client has ever had scarification, plastic tooth extraction, Circumcision, uvulectomy etc.').show();
@@ -1460,6 +1514,7 @@
                     getField('scarification.error').html('Please specify if client has ever had scarification, plastic tooth extraction, Circumcision, uvulectomy etc.').hide();
                 }
             }
+
             if(pAge &gt; 9 &amp;&amp; testHistory == 1065 &amp;&amp;  testStatus != 703) {
                 if (scarification == false) {
                     getField('scarification.error').html('Please specify if client has ever had scarification, plastic tooth extraction, Circumcision, uvulectomy etc.').show();
@@ -1468,22 +1523,25 @@
                     getField('scarification.error').html('Please specify if client has ever had scarification, plastic tooth extraction, Circumcision, uvulectomy etc.').hide();
                 }
             }
+
             if((testHistory == 1065 &amp;&amp;  testStatus != 703) &amp;&amp;  (healthWorker == 1065 &amp;&amp; needleStick == false)){
                 getField('needle-stick.error').html('Please specify if client had needle stick injuries.').show();
                 return false;
-            }else {
+            } else {
                 getField('needle-stick.error').html('Please specify if client had needle stick injuries.').hide();
             }
+
             if(eligibility == false){
                 getField('eligible-test.error').html('Please specify whether client is eligible for HIV test.').show();
                 return false;
-            }else {
+            } else {
                 getField('eligible-test.error').html('Please specify whether client is eligible for HIV test.').hide();
             }
+
             if(referred == false){
                 getField('referred.error').html('Please specify whether client was referred.').show();
                 return false;
-            }else {
+            } else {
                 getField('referred.error').html('Please specify whether client was referred.').hide();
             }
 
@@ -1510,66 +1568,66 @@
         <script type="text/javascript">
             jq(function(){
 
-                     var populationType = getValue('population-type.value');
-                    if (populationType == 164929 ){
-                        jq("#key-population").show();
-                        jq("#priority-population").hide();
-                    }
-                    if (populationType == 138643 ){
-                        jq("#priority-population").show();
-                        jq("#key-population").hide();
-                    }
-                    if(populationType == 164928){
-                        jq("#key-population").hide();
-                        jq("#priority-population").hide();
-                    }
+                var populationType = getValue('population-type.value');
+                if (populationType == 164929 ){
+                    jq("#key-population").show();
+                    jq("#priority-population").hide();
+                }
+                if (populationType == 138643 ){
+                    jq("#priority-population").show();
+                    jq("#key-population").hide();
+                }
+                if(populationType == 164928){
+                    jq("#key-population").hide();
+                    jq("#priority-population").hide();
+                }
 
-                   var testHistory = getValue('test-history.value');
-                    if (testHistory == 1066 ){
-                        jq('#test-result').hide();
-                        jq('#tr-art-start-date').hide();
-                        jq('#positive-client').hide();
-                    }
-                    if (testHistory == 1065){
-                        jq('#eligible-for-test').show();
-                        jq('#test-result').show();
-                        jq('#tr-art-start-date').show();
-                    }
+                var testHistory = getValue('test-history.value');
+                if (testHistory == 1066 ){
+                    jq('#test-result').hide();
+                    jq('#tr-art-start-date').hide();
+                    jq('#positive-client').hide();
+                }
+                if (testHistory == 1065){
+                    jq('#eligible-for-test').show();
+                    jq('#test-result').show();
+                    jq('#tr-art-start-date').show();
+                }
 
-                    var testStatus = getValue('ever-tested.value');
-                    if (testStatus == 664 ){
-                        jq('#positive-client').hide();
-                    }
-                    if (testStatus == 703){
-                        jq('#positive-client').show();
-                    }
-                    if (testStatus == 1067){
-                        jq('#positive-client').hide();
-                    }
+                var testStatus = getValue('ever-tested.value');
+                if (testStatus == 664 ){
+                    jq('#positive-client').hide();
+                }
+                if (testStatus == 703){
+                    jq('#positive-client').show();
+                }
+                if (testStatus == 1067){
+                    jq('#positive-client').hide();
+                }
 
-                    var sexuallyActive = getValue('sexually-active.value');
-                    if(sexuallyActive == 'true' &amp;&amp; pAge &gt; 10) {
-                        jq('#tr-sexually-active').show();
-                    }  else{
-                        jq('#tr-sexually-active').hide();
-                    }
+                var sexuallyActive = getValue('sexually-active.value');
+                if(sexuallyActive == 'true' &amp;&amp; pAge &gt; 10) {
+                    jq('#tr-sexually-active').show();
+                }  else{
+                    jq('#tr-sexually-active').hide();
+                }
 
-                    var experiencedGbv = getValue('experienced-gbv.value');
-                    if(experiencedGbv == 1065) {
-                        jq('#experienced-physical-violence').show();
-                        jq('#sex-againist-wish').show();
-                    }  else{
-                        jq('#experienced-physical-violence').hide();
-                        jq('#sex-againist-wish').hide();
-                    }
+                var experiencedGbv = getValue('experienced-gbv.value');
+                if(experiencedGbv == 1065) {
+                    jq('#experienced-physical-violence').show();
+                    jq('#sex-againist-wish').show();
+                }  else{
+                    jq('#experienced-physical-violence').hide();
+                    jq('#sex-againist-wish').hide();
+                }
 
                 var healthWorker = getValue('health-worker.value');
-                    if(healthWorker == 1065){
-                        jq('#tr-needle-stick').show();
-                    }else{
-                        jq('#tr-needle-stick').hide();
+                if(healthWorker == 1065){
+                    jq('#tr-needle-stick').show();
+                }else{
+                    jq('#tr-needle-stick').hide();
 
-                    }
+                }
                 var screenedForTb = getValue('screened-tb.value');
                 if(screenedForTb == 1065){
                     jq('#screening-questions').show();
@@ -1578,20 +1636,30 @@
 
                 }
 
-                    var pwid = getValue('pwid.value');
-                    var pwidChecked = jq("#pwid input:checkbox:checked");
-                    if(pwid == 105 &amp;&amp; pwidChecked.length >=1){
-                        jq('#tr-needle-shared').show();
-                    }else{
-                        jq('#tr-needle-shared').hide();
-                    }
-                   var referredTo = getValue('referred.value');
-                    if(referredTo == 1066){
-                        jq('#tr-reasons-ineligibility').show();
-                    }else{
-                        jq('#tr-reasons-ineligibility').hide();
+                var pwid = getValue('pwid.value');
+                var pwidChecked = jq("#pwid input:checkbox:checked");
+                if(pwid == 105 &amp;&amp; pwidChecked.length >=1){
+                    jq('#tr-needle-shared').show();
+                }else{
+                    jq('#tr-needle-shared').hide();
+                }
 
-                    }
+                var eligibleToTest = getValue('eligible-test.value');
+                if(eligibleToTest == 1066){
+                    jq('#tr-testing-reasons').hide();
+                    jq('#tr-not-testing-reasons').show();
+                }else{
+                    jq('#tr-not-testing-reasons').hide();
+                    jq('#tr-testing-reasons').show();
+                }
+
+                var referredTo = getValue('referred.value');
+                if(referredTo == 1066){
+                    jq('#tr-reasons-ineligibility').show();
+                }else{
+                    jq('#tr-reasons-ineligibility').hide();
+                }
+
                 var otherReasons = getValue('other-decline-reason.value');
                 var otherChecked = jq("#other-decline-reason input:checkbox:checked");
                 if(otherReasons == 5622 &amp;&amp; otherChecked.length >=1){
@@ -2241,6 +2309,7 @@
                             <button type="button" class="ke-getscore-button" id="btn-ml-prediction">Get
                                 risk category
                             </button>
+                            <span style="color:red;"><strong>*</strong></span>
                         </td>
                         <td width="50px"></td>
                         <td><div id="ml-prediction-risk-category"></div></td>
@@ -2280,12 +2349,10 @@
                     </td>
                     <td colspan="3">
                         <obs id="tb-testing-reasons" conceptId="164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=""
-                                                   answerConceptIds="1660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     142177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             style="radio" answerLabels="HTS Counselor's Decision,Clinician's Decision,Computed Risk Score,Risk Categorization,Other (Specify)" />
+                                                   answerConceptIds="167141AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     166664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     1163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             style="radio" answerLabels="Computed risk score, Eligibility screening outcome, Both" />
                     </td>
                 </tr>
                 <tr id="tr-not-testing-reasons">
@@ -2294,12 +2361,10 @@
                     </td>
                     <td colspan="3">
                         <obs id="tb-not-testing-reasons" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=""
-                                                   answerConceptIds="1660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     142177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                                     5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             style="radio" answerLabels="HTS Counselor's Decision,Clinician's Decision,Computed Risk Score,Risk Categorization,Other (Specify)" />
+                                                   answerConceptIds="167141AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     166664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                     1163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             style="radio" answerLabels="Computed risk score, Eligibility screening outcome, Both" />
                     </td>
                 </tr>
                 <tr>
